@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react"
 
 export const HeaderHero: React.FC = () => {
     const handleDownload = async () => {
-        const res = await fetch("http://localhost:5566/resume");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/resume`);
         if (!res.ok) return alert("Failed to download");
 
         const blob = await res.blob();
@@ -64,7 +64,7 @@ export const HeaderHero: React.FC = () => {
                         <a className="bg-orange-500 text-black font-medium px-6 py-3 rounded-lg hover:bg-orange-600 transition" href="#contact">
                             Hire Me
                         </a>
-                        <button onClick={handleDownload} className="border border-gray-400 text-gray-300 font-medium px-6 py-3 rounded-lg hover:bg-gray-800 transition">
+                        <button onClick={handleDownload} className="cursor-pointer border border-gray-400 text-gray-300 font-medium px-6 py-3 rounded-lg hover:bg-gray-800 transition">
                             Download my CV
                         </button>
                     </div>
