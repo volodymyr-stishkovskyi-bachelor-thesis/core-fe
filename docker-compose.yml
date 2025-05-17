@@ -3,3 +3,8 @@ services:
   web:
     build: .
     ports: ['3005:3000']
+
+networks:
+  default:
+    external:
+      name: app-network
