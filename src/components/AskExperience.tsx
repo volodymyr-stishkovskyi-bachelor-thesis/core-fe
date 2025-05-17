@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 interface Message {
     sender: "user" | "bot";
     content: string;
 }
+
+const apiHost = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:5566";
 
 export const AskExperience: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -14,6 +17,7 @@ export const AskExperience: React.FC = () => {
     const chatEndRef = useRef<HTMLDivElement | null>(null);
     const headerRef = useRef<HTMLHeadingElement | null>(null);
     const mounted = useRef(false);
+    const chatIdRef = useRef<string>(uuidv4());
 
     useEffect(() => {
         if (!mounted.current) {
@@ -35,14 +39,44 @@ export const AskExperience: React.FC = () => {
         setInput("");
         setIsLoading(true);
 
-        setTimeout(() => {
+        try {
+            const res = await fetch(`${apiHost}/queries`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    query: input,
+                    chat: chatIdRef.current,
+                }),
+            });
+
+            const { response: data } = await res.json();
+
+            let processedData = data;
+            if (typeof data === 'string') {
+                if (data.startsWith('"') && data.endsWith('"')) {
+                    processedData = data.slice(1, -1);
+                }
+            }
+
             const response: Message = {
                 sender: "bot",
-                content: `Mock reply to: "${input}"`,
+                content: processedData || "Sorry, no response.",
             };
+
             setMessages((prev) => [...prev, response]);
+        } catch (error) {
+            setMessages((prev) => [
+                ...prev,
+                {
+                    sender: "bot",
+                    content: "Error reaching the server. Please try again later.",
+                },
+            ]);
+        } finally {
             setIsLoading(false);
-        }, 800);
+        }
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

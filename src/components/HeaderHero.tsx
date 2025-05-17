@@ -55,9 +55,9 @@ export const HeaderHero: React.FC = () => {
 
                     <div className="flex items-center space-x-4">
                         {/* Social icons placeholders */}
-                        <img src="/images/inkedin.svg" alt="LinkedIn" className="w-6 h-6" />
-                        <img src="/images/leetcode.svg" alt="Leetcode" className="w-6 h-6" />
-                        <img src="/images/github-mark-white.svg" alt="GitHub" className="w-6 h-6" />
+                        <a href="https://www.linkedin.com/in/volodymyr-stishkovskyi/" target='_blank'><img src="/images/inkedin.svg" alt="LinkedIn" className="w-6 h-6" /></a>
+                        <a href="https://leetcode.com/u/sweetmnstr/" target='_blank'><img src="/images/leetcode.svg" alt="Leetcode" className="w-6 h-6" /></a>
+                        <a href="https://github.com/sweetmnstr" target='_blank'><img src="/images/github-mark-white.svg" alt="GitHub" className="w-6 h-6" /></a>
                     </div>
 
                     <div className="mt-6 flex space-x-4">

@@ -1,13 +1,22 @@
 import { NextResponse } from 'next/server';
 
-export async function GET() {
-  return NextResponse.json({
-    easy: 135,
-    totalEasy: 874,
-    medium: 653,
-    totalMedium: 1836,
-    hard: 26,
-    totalHard: 829,
-  });
+export async function GET () {
+  try {
+    const apiHost = process.env.NEXT_PUBLIC_API_HOST;
+    const response = await fetch(`${apiHost}/leetcode`);
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error fetching leetcode data:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch leetcode data' },
+      { status: 500 }
+    );
+  }
 }
 
