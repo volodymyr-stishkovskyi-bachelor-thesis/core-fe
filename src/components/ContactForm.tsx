@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Footer } from "./Footer";
 
 export const ContactForm: React.FC = () => {
     const [form, setForm] = useState({

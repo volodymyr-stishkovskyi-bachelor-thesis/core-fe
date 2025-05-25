@@ -3,8 +3,15 @@ services:
   web:
     build: .
     ports: ['3005:3000']
+    env_file:
+        - .env
+    environment:
+      NEXT_PUBLIC_API_HOST: ${NEXT_PUBLIC_API_HOST}
+    networks:
+      - thesis-network
+
 
 networks:
-  default:
+  thesis-network:
     external: true
     name: thesis-network
